@@ -6,6 +6,8 @@
 
 package GameClient;
 
+import GUI.Board;
+import GameServer.WhacMole;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -55,9 +57,16 @@ public class MulticastClient {
     
     public static void main(String args[]) throws ClassNotFoundException{ 
         MulticastClient mc = new MulticastClient();
-        Object obj = mc.receiveUDP();
-        if(obj instanceof String){
-            System.out.println((String) obj);
+        Board b = new Board();
+        b.setVisible(true);
+        while(true){
+            Object obj = mc.receiveUDP();
+            if(obj instanceof WhacMole){
+                WhacMole wm = (WhacMole) obj;
+                System.out.println(wm.toString());
+                b.updateBoard(wm.getBoard());
+            }
         }
+        
     }
 }
