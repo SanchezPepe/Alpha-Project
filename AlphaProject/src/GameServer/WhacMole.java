@@ -5,7 +5,9 @@
  */
 package GameServer;
 
+import GameClient.Player;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -19,10 +21,12 @@ public class WhacMole implements Serializable{
     */
     private int board[];
     private int monsterPosition;
-
+    private ArrayList<Player> players;
+    
     public WhacMole(){
         this.board = new int[9];
         this.changeBoard();
+        this.players = new ArrayList<>();
     }
     
     public void changeBoard(){
@@ -35,6 +39,21 @@ public class WhacMole implements Serializable{
         this.board[this.monsterPosition] = 1;
     }
 
+    public int getMonsterPosition() {
+        return monsterPosition;
+    }
+    
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+    
+    public boolean addPlayer(Player player){
+        if(!this.players.contains(player)){
+            return this.players.add(player);
+        }
+        return false;
+    }
+    
     @Override
     public String toString() {
         return "WhacMole{" + "board=" + Arrays.toString(board) + ", monsterPosition=" + monsterPosition + '}';
