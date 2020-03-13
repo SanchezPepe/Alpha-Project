@@ -5,6 +5,8 @@
  */
 package alphaproject;
 
+import GUI.Board;
+
 /**
  *
  * @author LPENAF
@@ -15,7 +17,8 @@ public class AlphaProject {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Board b = new Board();
+        b.setVisible(true);
     }
     
 }
