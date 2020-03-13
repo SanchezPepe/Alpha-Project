@@ -12,19 +12,18 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
-import java.util.ArrayList;
 
 /**
  *
- * @author JGUTIERRGARC
+ * @author LPENAF
  */
-public class MulticastSenderPeer {
+public class GameManager {
     private WhacMole game;
     private final String IP = "228.5.6.7";
     private final int PORT = 6789;
     private final ConnectionData connect;
 
-    public MulticastSenderPeer() {
+    public GameManager() {
         this.game = new WhacMole();
         this.connect = new ConnectionData(this.IP, this.PORT);
     }
@@ -40,23 +39,23 @@ public class MulticastSenderPeer {
         }
     }
     
-    public void sendUDP(Object o){
+    public void sendUDP(Object obj){
         MulticastSocket socket = null;
         
         try {
             InetAddress group = InetAddress.getByName(this.IP); // destination multicast group 
             socket = new MulticastSocket(this.PORT);
-            socket.joinGroup(group); 
+            socket.joinGroup(group);
             //s.setTimeToLive(10);
             
             System.out.println("Messages' TTL (Time-To-Live): " + socket.getTimeToLive());
             
-            byte [] m = Utils.Serializing.serialize(o);
+            byte [] m = Utils.Serializing.serialize(obj);
             
             DatagramPacket messageOut = 
                     new DatagramPacket(m, m.length, group, this.PORT);
             socket.send(messageOut);
-
+            
             socket.leaveGroup(group);
         } catch (SocketException e){
             System.out.println("Socket: " + e.getMessage());
@@ -72,11 +71,6 @@ public class MulticastSenderPeer {
     }
     
     public static void main(String args[]){ 
-        MulticastSenderPeer msp = new MulticastSenderPeer();
-        msp.registerPlayer("lpenaf");
-        msp.registerPlayer("jjsa");
-        msp.registerPlayer("fof");
-        msp.registerPlayer("lpenaf");
-        msp.registerPlayer("aadh");
+
     }
 }
