@@ -19,10 +19,11 @@ import java.io.*;
  * @author LPENAF
  */
 public class TCPServer {
+    public static final int PORT = 7896;
     
     public static void main (String args[]) {
 	try{
-            int serverPort = 7896; 
+            int serverPort = PORT; 
             ServerSocket listenSocket = new ServerSocket(serverPort);
             while(true) {
                 System.out.println("Waiting for messages..."); 

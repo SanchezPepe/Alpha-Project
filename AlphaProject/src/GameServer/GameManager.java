@@ -7,11 +7,6 @@
 package GameServer;
 
 import GameClient.Player;
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.SocketException;
 
 /**
  *
@@ -28,49 +23,13 @@ public class GameManager {
         this.connect = new ConnectionData(this.IP, this.PORT);
     }
     
-    public void registerPlayer(String name){
+    public ConnectionData registerPlayer(String name){
         Player newPlayer = new Player(name, this.game.getPlayers().size() + 1);
         
         if(this.game.addPlayer(newPlayer)){
-            this.sendUDP(this.connect);
+            return this.connect;
         } else {
-            ConnectionData cd = new ConnectionData("-1", -1);
-            this.sendUDP(cd);
+            return new ConnectionData("-1", -1);
         }
-    }
-    
-    public void sendUDP(Object obj){
-        MulticastSocket socket = null;
-        
-        try {
-            InetAddress group = InetAddress.getByName(this.IP); // destination multicast group 
-            socket = new MulticastSocket(this.PORT);
-            socket.joinGroup(group);
-            //s.setTimeToLive(10);
-            
-            System.out.println("Messages' TTL (Time-To-Live): " + socket.getTimeToLive());
-            
-            byte [] m = Utils.Serializing.serialize(obj);
-            
-            DatagramPacket messageOut = 
-                    new DatagramPacket(m, m.length, group, this.PORT);
-            socket.send(messageOut);
-            
-            socket.leaveGroup(group);
-        } catch (SocketException e){
-            System.out.println("Socket: " + e.getMessage());
-            System.out.println(e.toString());
-        } catch (IOException e){
-            System.out.println("IO: " + e.getMessage());
-            System.out.println(e.toString());
-        } finally {
-            if(socket != null){
-                socket.close();
-            }
-        }
-    }
-    
-    public static void main(String args[]){ 
-
     }
 }

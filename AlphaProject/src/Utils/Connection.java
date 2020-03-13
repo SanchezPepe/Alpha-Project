@@ -29,7 +29,7 @@ public class Connection extends Thread {
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new ObjectInputStream(clientSocket.getInputStream());
         } catch(IOException e) {
-            System.out.println("Connection:"+e.getMessage());
+            System.out.println("Connection:" + e.getMessage());
         }
     }
 
@@ -44,8 +44,6 @@ public class Connection extends Thread {
             } else {
                 out.writeObject("Otro servicio acá");
             }
-            
-            
         } catch(EOFException e) {
             System.out.println("EOF:"+e.getMessage());
         } catch(IOException e) {

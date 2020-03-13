@@ -15,12 +15,13 @@ import java.util.logging.Logger;
  * @author LPENAF
  */
 public class TCPClient {
+    public final int PORT = 7896;
     
     public Object receiveTCP(String msj){
         Socket s = null;
         Object received = null;
         try {
-            int serverPort = 7896;
+            int serverPort = PORT;
 
             s = new Socket("localhost", serverPort);    
          //   s = new Socket("127.0.0.1", serverPort);
