@@ -9,6 +9,7 @@ import GameClient.Player;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -52,6 +53,10 @@ public class WhacMole implements Serializable{
             return this.players.add(player);
         }
         return false;
+    }
+    
+    public void setLeaderboard(){
+        Collections.sort(this.players, Player.POINTS_COMPARATOR);
     }
     
     @Override

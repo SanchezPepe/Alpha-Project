@@ -5,6 +5,7 @@
  */
 package GameClient;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -12,20 +13,40 @@ import java.util.Objects;
  * @author LPENAF
  */
 public class Player {
-    private String name;
-    private int id;
+    private final String NAME;
+    private final int ID;
     private int points;
+    public static final Comparator<Player> POINTS_COMPARATOR = new Comparator<Player>() {         
+        @Override         
+        public int compare(Player player1, Player player2) {             
+          return (player2.getPoints() < player1.getPoints() ? -1 :
+                  (player2.getPoints() == player1.getPoints() ? 0 : 1));         
+        }        
+    }; 
 
     public Player(String name, int id) {
-        this.name = name;
-        this.id = id;
+        this.NAME = name;
+        this.ID = id;
         this.points = 0;
     }
 
+    public void setPoints() {
+        this.points += 1;
+    }
+    
+    public int getPoints() {
+        return points;
+    }
+    
+    @Override
+    public String toString() {
+        return "Player{" + "name=" + NAME + ", id=" + ID + ", points=" + points + '}';
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 41 * hash + Objects.hashCode(this.name);
+        hash = 41 * hash + Objects.hashCode(this.NAME);
         return hash;
     }
 
@@ -41,15 +62,10 @@ public class Player {
             return false;
         }
         final Player other = (Player) obj;
-        if (!Objects.equals(this.name, other.name)) {
+        if (!Objects.equals(this.NAME, other.NAME)) {
             return false;
         }
         return true;
-    }
-    
-    @Override
-    public String toString() {
-        return "Player{" + "name=" + name + ", id=" + id + ", points=" + points + '}';
     }
     
 }
