@@ -40,6 +40,10 @@ public class WhacMole implements Serializable{
         this.board[this.monsterPosition] = 1;
     }
 
+    public int[] getBoard() {
+        return board;
+    }
+
     public int getMonsterPosition() {
         return monsterPosition;
     }

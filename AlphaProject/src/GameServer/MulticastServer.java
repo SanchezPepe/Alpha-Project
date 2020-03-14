@@ -50,8 +50,13 @@ public class MulticastServer {
         }
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         MulticastServer ms = new MulticastServer();
-        ms.sendUDP("Hola!");
+        WhacMole wm = new WhacMole();
+        while(true){
+            wm.changeBoard();
+            ms.sendUDP(wm);
+            Thread.sleep(500);
+        }
     }
 }
