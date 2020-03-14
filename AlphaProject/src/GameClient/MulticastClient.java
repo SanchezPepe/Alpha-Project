@@ -13,6 +13,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,7 +56,7 @@ public class MulticastClient {
         return received;
     }
     
-    public static void main(String args[]) throws ClassNotFoundException{ 
+    public static void main(String args[]) throws ClassNotFoundException, IOException{ 
         MulticastClient mc = new MulticastClient();
         Board b = new Board();
         b.setVisible(true);

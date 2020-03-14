@@ -56,7 +56,7 @@ public class MulticastServer {
         while(true){
             wm.changeBoard();
             ms.sendUDP(wm);
-            Thread.sleep(5000);
+            Thread.sleep(500);
         }
     }
 }
