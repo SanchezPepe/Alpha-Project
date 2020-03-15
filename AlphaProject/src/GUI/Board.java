@@ -37,7 +37,20 @@ public class Board extends javax.swing.JFrame {
         this.botones.add(btn9);
     }
     
+    public void blockButtons(){
+        for (int i = 0; i < botones.size(); i++) {
+            botones.get(i).setEnabled(false);
+        }
+    }
+    
+    public void unblockButtons(){
+        for (int i = 0; i < botones.size(); i++) {
+            botones.get(i).setEnabled(true);
+        }
+    }
+    
     public void updateBoard(int board[]) throws MalformedURLException, IOException{
+        unblockButtons();
         for (int i = 0; i < this.botones.size(); i++) {
             JButton button = this.botones.get(i);
             
@@ -76,30 +89,75 @@ public class Board extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btn1.setBackground(new java.awt.Color(255, 255, 255));
+        btn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn1MouseClicked(evt);
+            }
+        });
 
         btn2.setBackground(new java.awt.Color(255, 255, 255));
         btn2.setForeground(new java.awt.Color(255, 255, 255));
+        btn2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn2MouseClicked(evt);
+            }
+        });
 
         btn3.setBackground(new java.awt.Color(255, 255, 255));
         btn3.setForeground(new java.awt.Color(255, 255, 255));
+        btn3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn3MouseClicked(evt);
+            }
+        });
 
         btn4.setBackground(new java.awt.Color(255, 255, 255));
         btn4.setForeground(new java.awt.Color(255, 255, 255));
+        btn4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn4MouseClicked(evt);
+            }
+        });
 
         btn5.setBackground(new java.awt.Color(255, 255, 255));
         btn5.setForeground(new java.awt.Color(255, 255, 255));
+        btn5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn5MouseClicked(evt);
+            }
+        });
 
         btn6.setBackground(new java.awt.Color(255, 255, 255));
         btn6.setForeground(new java.awt.Color(255, 255, 255));
+        btn6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn6MouseClicked(evt);
+            }
+        });
 
         btn7.setBackground(new java.awt.Color(255, 255, 255));
         btn7.setForeground(new java.awt.Color(255, 255, 255));
+        btn7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn7MouseClicked(evt);
+            }
+        });
 
         btn8.setBackground(new java.awt.Color(255, 255, 255));
         btn8.setForeground(new java.awt.Color(255, 255, 255));
+        btn8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn8MouseClicked(evt);
+            }
+        });
 
         btn9.setBackground(new java.awt.Color(255, 255, 255));
         btn9.setForeground(new java.awt.Color(255, 255, 255));
+        btn9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn9MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,6 +226,69 @@ public class Board extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn1MouseClicked
+        if(btn1.isEnabled()){
+            System.out.println("Clic en el 1");
+            blockButtons();
+        }
+    }//GEN-LAST:event_btn1MouseClicked
+
+    private void btn2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn2MouseClicked
+        if(btn2.isEnabled()){
+            System.out.println("Clic en el 2");
+            blockButtons();
+        }
+    }//GEN-LAST:event_btn2MouseClicked
+
+    private void btn3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn3MouseClicked
+        if(btn3.isEnabled()){
+            System.out.println("Clic en el 3");
+            blockButtons();
+        }
+    }//GEN-LAST:event_btn3MouseClicked
+
+    private void btn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn4MouseClicked
+        if(btn4.isEnabled()){
+            System.out.println("Clic en el 4");
+            blockButtons();
+        }
+    }//GEN-LAST:event_btn4MouseClicked
+
+    private void btn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn5MouseClicked
+        if(btn5.isEnabled()){
+            System.out.println("Clic en el 5");
+            blockButtons();
+        }
+    }//GEN-LAST:event_btn5MouseClicked
+
+    private void btn6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn6MouseClicked
+        if(btn6.isEnabled()){
+            System.out.println("Clic en el 6");
+            blockButtons();
+        }
+    }//GEN-LAST:event_btn6MouseClicked
+
+    private void btn7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn7MouseClicked
+        if(btn7.isEnabled()){
+            System.out.println("Clic en el 7");
+            blockButtons();
+        }
+    }//GEN-LAST:event_btn7MouseClicked
+
+    private void btn8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn8MouseClicked
+        if(btn8.isEnabled()){
+            System.out.println("Clic en el 8");
+            blockButtons();
+        }
+    }//GEN-LAST:event_btn8MouseClicked
+
+    private void btn9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn9MouseClicked
+        if(btn9.isEnabled()){
+            System.out.println("Clic en el 9");
+            blockButtons();
+        }
+    }//GEN-LAST:event_btn9MouseClicked
 
     /**
      * @param args the command line arguments
