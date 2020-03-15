@@ -63,7 +63,7 @@ public class MulticastClient {
             Object obj = mc.receiveUDP();
             if(obj instanceof WhacMole){
                 WhacMole wm = (WhacMole) obj;
-                System.out.println(wm.toString());
+                //System.out.println(wm.toString());
                 b.updateBoard(wm.getBoard());
             }
         }
