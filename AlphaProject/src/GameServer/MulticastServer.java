@@ -10,6 +10,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
+import java.util.Date;
 
 /**
  *
@@ -20,6 +21,7 @@ public class MulticastServer {
     private final int PORT = 6789;
     
     public void sendUDP(Object obj){
+        System.out.println("Objeto a mandar "+obj.toString());
         MulticastSocket socket = null;
         
         try {
@@ -53,10 +55,14 @@ public class MulticastServer {
     public static void main(String[] args) throws InterruptedException {
         MulticastServer ms = new MulticastServer();
         WhacMole wm = new WhacMole();
+        String score = (new Date()).toString();
         while(true){
             wm.changeBoard();
             ms.sendUDP(wm);
-            Thread.sleep(2000);
+            Thread.sleep(200);
+            ms.sendUDP(score);
+            Thread.sleep(300);
+            score = (new Date()).toString();
         }
     }
 }

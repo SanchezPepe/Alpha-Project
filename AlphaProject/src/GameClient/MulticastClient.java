@@ -39,7 +39,7 @@ public class MulticastClient {
                     new DatagramPacket(buffer, buffer.length);
             socket.receive(messageIn);
             received = Utils.Serializing.deserialize(messageIn.getData());
-            System.out.println("Message from: " + messageIn.getAddress());
+            //System.out.println("Message from: " + messageIn.getAddress());
             
             socket.leaveGroup(group);
         } catch (SocketException e){
@@ -61,10 +61,16 @@ public class MulticastClient {
         b.setVisible(true);
         while(true){
             Object obj = mc.receiveUDP();
+            System.out.println("Objeto recibido: "+obj.toString());
             if(obj instanceof WhacMole){
                 WhacMole wm = (WhacMole) obj;
                 //System.out.println(wm.toString());
                 b.updateBoard(wm.getBoard());
+            }else{
+                if(obj instanceof String){
+                    System.out.println("Recibiendo en el cliente");
+                    b.updateScore((String) obj);
+                }
             }
         }
         

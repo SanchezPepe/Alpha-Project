@@ -5,6 +5,7 @@
  */
 package GameClient;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ import java.util.Objects;
  *
  * @author LPENAF
  */
-public class Player {
+public class Player implements Serializable {
     private final String NAME;
     private final int ID;
     private int points;
@@ -29,6 +30,14 @@ public class Player {
         this.ID = id;
         this.points = 0;
     }
+
+    public String getNAME() {
+        return NAME;
+    }
+
+    public int getID() {
+        return ID;
+    }   
 
     public void setPoints() {
         this.points += 1;

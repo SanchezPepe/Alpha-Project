@@ -1,8 +1,11 @@
+package TCP;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import GameClient.Player;
 import java.net.*;
 import java.io.*;
 import java.util.logging.Level;
@@ -43,9 +46,9 @@ class Connection extends Thread {
 
 	public Connection(Socket aClientSocket) {
 		try {
-			clientSocket = aClientSocket;
-			in = new ObjectInputStream(clientSocket.getInputStream());
-			out = new ObjectOutputStream(clientSocket.getOutputStream());
+                    clientSocket = aClientSocket;
+                    in = new ObjectInputStream(clientSocket.getInputStream());
+                    out = new ObjectOutputStream(clientSocket.getOutputStream());
 		} catch (IOException e) {
 			System.out.println("Connection:" + e.getMessage());
 		}
@@ -55,8 +58,8 @@ class Connection extends Thread {
 	public void run() {
 		try {
 			Player p = (Player) in.readObject();
-			p.setId(p.getId() + 1);
-			System.out.println("Received from player: " + p.getId() + " " + p.getName());
+			//p.setID(p.getID() + 1);
+			System.out.println("Received from player: " + p.getID() + " " + p.getNAME());
 			out.writeObject(p);
 		} catch (EOFException e) {
 			System.out.println("EOF:" + e.getMessage());
