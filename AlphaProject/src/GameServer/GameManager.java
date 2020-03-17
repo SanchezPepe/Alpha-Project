@@ -49,8 +49,29 @@ public class GameManager {
         if(this.game.addPlayer(newPlayer)){
             return this.connect;
         } else {
-            return new ConnectionData("-1", -1);
+            int pos =getPlayerPosByName(name);
+            if(pos>=0){
+                Player p = this.game.getPlayers().get(pos);
+                p.setStatus(true);
+                this.game.updatePlayer(p);
+                return this.connect;
+            }else{
+                return new ConnectionData("-1", -1);
+            }
+            
+            
         }
+    }
+    
+    public int getPlayerPosByName(String name){
+        int res = -1;
+        ArrayList<Player> jugadores = game.getPlayers();
+        for (int i = 0; i < jugadores.size(); i++) {
+            if(jugadores.get(i).getNAME().equals(name)){
+                return i;
+            }
+        }
+        return res;
     }
 
     public WhacMole getGame() {

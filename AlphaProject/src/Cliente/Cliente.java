@@ -31,6 +31,7 @@ public class Cliente {
         //ConnectionData cd; = gm.registerPlayer(nombre);
         TCPClient tcpClient = new TCPClient();
         ConnectionData cd = tcpClient.enviaRegistro(nombre);
+        
         System.out.println(cd.toString());
         //Thread.sleep(5000);
         if(cd != null){
