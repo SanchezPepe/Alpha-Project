@@ -7,6 +7,7 @@
 package GameServer;
 
 import GameClient.Player;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,13 +15,32 @@ import GameClient.Player;
  */
 public class GameManager {
     private WhacMole game;
+    //direcciones para el multicast
     private final String IP = "228.5.6.7";
     private final int PORT = 6789;
     private final ConnectionData connect;
 
+    
     public GameManager() {
-        this.game = new WhacMole();
         this.connect = new ConnectionData(this.IP, this.PORT);
+        this.game = new WhacMole();
+    }
+    
+    public Player getPlayerByName(String name){
+        
+        ArrayList<Player> jugadores = game.getPlayers();
+        System.out.println("Jugadores registrados --> "+jugadores.toString());
+        for (int i = 0; i < jugadores.size(); i++) {
+            Player jugador = jugadores.get(i);
+            if(jugador.getNAME().equals(name)){
+                return jugador;
+            }
+        }
+        return null;
+    }
+    
+    public void reiniciar(){
+        this.game.restart();
     }
     
     public ConnectionData registerPlayer(String name){
@@ -32,7 +52,21 @@ public class GameManager {
             return new ConnectionData("-1", -1);
         }
     }
+
+    public WhacMole getGame() {
+        return game;
+    }
+
+    public void setGame(WhacMole game) {
+        this.game = game;
+    }
     
+    public void changeBoard(){
+        this.game.changeBoard();
+    }
     
+    public void updatePlayer(Player p){
+        this.game.updatePlayer(p);
+    }
     
 }

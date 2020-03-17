@@ -5,11 +5,17 @@
  */
 package GUI;
 
+import GameClient.Player;
+import TCP.TCPClient;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +26,9 @@ import javax.swing.JButton;
  */
 public class Board extends javax.swing.JFrame {
     private ArrayList<JButton> botones;
+    private Player jugador;
+    private TCPClient tcpClient;
+    private int[]board;
     /**
      * Creates new form Board
      */
@@ -35,6 +44,72 @@ public class Board extends javax.swing.JFrame {
         this.botones.add(btn7);
         this.botones.add(btn8);
         this.botones.add(btn9);
+        this.jugador = null;
+        this.txtNombreJugador.setText("");
+        
+        addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                System.out.println("Closed");
+                Player p = jugador;
+                p.setStatus(false);
+                p.newPoints();
+                try {
+                    tcpClient.enviaJugador(p);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                e.getWindow().dispose();
+            }
+        });
+    }
+    
+    public Board(Player jugador){
+        initComponents();
+        this.botones = new ArrayList<>();
+        this.botones.add(btn1);
+        this.botones.add(btn2);
+        this.botones.add(btn3);
+        this.botones.add(btn4);
+        this.botones.add(btn5);
+        this.botones.add(btn6);
+        this.botones.add(btn7);
+        this.botones.add(btn8);
+        this.botones.add(btn9);
+        this.jugador = null;
+        //this.txtNombreJugador.setText("");
+        this.jugador = jugador;
+        String nombre = this.jugador.getNAME();
+        this.txtNombreJugador.setText(nombre);
+        this.tcpClient = new TCPClient();
+        
+        addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                System.out.println("Closed");
+                Player p = jugador;
+                p.setStatus(false);
+                p.newPoints();
+                try {
+                    tcpClient.enviaJugador(p);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                e.getWindow().dispose();
+            }
+        });
+    }
+    
+    public void resetPoints(){
+        this.jugador.newPoints();
     }
     
     public void blockButtons(){
@@ -50,7 +125,8 @@ public class Board extends javax.swing.JFrame {
     }
     
     public void updateBoard(int board[]) throws MalformedURLException, IOException{
-        unblockButtons();
+        //unblockButtons();
+        this.board = board;
         for (int i = 0; i < this.botones.size(); i++) {
             JButton button = this.botones.get(i);
             
@@ -70,6 +146,28 @@ public class Board extends javax.swing.JFrame {
     public void updateScore(String score){
         jTextArea1.setText(score);
     }
+    
+    public void updateTerminado(boolean terminado) throws InterruptedException{
+        if(terminado){
+            //updateScore("El juego ha terminado...");
+            blockButtons();
+        }else{
+            unblockButtons();
+        }
+    }
+    
+    public Player clicEnBoton(int numero){
+        if(this.board!=null && this.board[numero]==1){
+            System.out.println("Le atinó al lugar -> "+(numero+1)+ " en el tablero");
+            this.jugador.setPoints();
+        }else{
+            System.out.println("No le atinó");
+        }
+        return this.jugador;
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -93,8 +191,7 @@ public class Board extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         btnExit = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        txtNombreJugador = new javax.swing.JLabel();
 
         btn1.setBackground(new java.awt.Color(255, 255, 255));
         btn1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -181,17 +278,17 @@ public class Board extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btn3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btn4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn6, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btn7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn8, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btn9, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btn9, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btn4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn6, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -203,16 +300,18 @@ public class Board extends javax.swing.JFrame {
                     .addComponent(btn2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn6, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn6, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn8, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn9, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn8, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -231,6 +330,10 @@ public class Board extends javax.swing.JFrame {
             }
         });
 
+        txtNombreJugador.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        txtNombreJugador.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtNombreJugador.setText("Jugador x");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -238,31 +341,36 @@ public class Board extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                            .addComponent(txtNombreJugador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(19, 19, 19))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(64, 64, 64)))
-                .addContainerGap())
+                        .addGap(94, 94, 94))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(27, 27, 27)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                        .addContainerGap()
+                        .addComponent(txtNombreJugador)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnExit)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -272,6 +380,12 @@ public class Board extends javax.swing.JFrame {
         if(btn1.isEnabled()){
             System.out.println("Clic en el 1");
             blockButtons();
+            Player p = clicEnBoton(0);
+            try {
+                this.tcpClient.enviaJugador(p);
+            } catch (InterruptedException | ClassNotFoundException ex) {
+                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btn1MouseClicked
 
@@ -279,6 +393,12 @@ public class Board extends javax.swing.JFrame {
         if(btn2.isEnabled()){
             System.out.println("Clic en el 2");
             blockButtons();
+            Player p = clicEnBoton(1);
+            try {
+                this.tcpClient.enviaJugador(p);
+            } catch (InterruptedException | ClassNotFoundException ex) {
+                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btn2MouseClicked
 
@@ -286,6 +406,12 @@ public class Board extends javax.swing.JFrame {
         if(btn3.isEnabled()){
             System.out.println("Clic en el 3");
             blockButtons();
+            Player p = clicEnBoton(2);
+            try {
+                this.tcpClient.enviaJugador(p);
+            } catch (InterruptedException | ClassNotFoundException ex) {
+                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btn3MouseClicked
 
@@ -293,6 +419,12 @@ public class Board extends javax.swing.JFrame {
         if(btn4.isEnabled()){
             System.out.println("Clic en el 4");
             blockButtons();
+            Player p = clicEnBoton(3);
+            try {
+                this.tcpClient.enviaJugador(p);
+            } catch (InterruptedException | ClassNotFoundException ex) {
+                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btn4MouseClicked
 
@@ -300,6 +432,12 @@ public class Board extends javax.swing.JFrame {
         if(btn5.isEnabled()){
             System.out.println("Clic en el 5");
             blockButtons();
+            Player p = clicEnBoton(4);
+            try {
+                this.tcpClient.enviaJugador(p);
+            } catch (InterruptedException | ClassNotFoundException ex) {
+                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btn5MouseClicked
 
@@ -307,6 +445,12 @@ public class Board extends javax.swing.JFrame {
         if(btn6.isEnabled()){
             System.out.println("Clic en el 6");
             blockButtons();
+            Player p = clicEnBoton(5);
+            try {
+                this.tcpClient.enviaJugador(p);
+            } catch (InterruptedException | ClassNotFoundException ex) {
+                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btn6MouseClicked
 
@@ -314,6 +458,12 @@ public class Board extends javax.swing.JFrame {
         if(btn7.isEnabled()){
             System.out.println("Clic en el 7");
             blockButtons();
+            Player p = clicEnBoton(6);
+            try {
+                this.tcpClient.enviaJugador(p);
+            } catch (InterruptedException | ClassNotFoundException ex) {
+                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btn7MouseClicked
 
@@ -321,6 +471,12 @@ public class Board extends javax.swing.JFrame {
         if(btn8.isEnabled()){
             System.out.println("Clic en el 8");
             blockButtons();
+            Player p = clicEnBoton(7);
+            try {
+                this.tcpClient.enviaJugador(p);
+            } catch (InterruptedException | ClassNotFoundException ex) {
+                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btn8MouseClicked
 
@@ -328,10 +484,36 @@ public class Board extends javax.swing.JFrame {
         if(btn9.isEnabled()){
             System.out.println("Clic en el 9");
             blockButtons();
+            Player p = clicEnBoton(8);
+            try {
+                this.tcpClient.enviaJugador(p);
+            } catch (InterruptedException | ClassNotFoundException ex) {
+                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btn9MouseClicked
 
     private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
+        
+        addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                System.out.println("Closed");
+                Player p = jugador;
+                p.setStatus(false);
+                p.newPoints();
+                try {
+                    tcpClient.enviaJugador(p);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                e.getWindow().dispose();
+            }
+        });
         System.exit(0);
     }//GEN-LAST:event_btnExitMouseClicked
 
@@ -386,5 +568,6 @@ public class Board extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel txtNombreJugador;
     // End of variables declaration//GEN-END:variables
 }

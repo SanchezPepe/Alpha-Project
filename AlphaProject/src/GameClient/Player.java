@@ -17,6 +17,7 @@ public class Player implements Serializable {
     private final String NAME;
     private final int ID;
     private int points;
+    private boolean active;
     public static final Comparator<Player> POINTS_COMPARATOR = new Comparator<Player>() {         
         @Override         
         public int compare(Player player1, Player player2) {             
@@ -29,6 +30,7 @@ public class Player implements Serializable {
         this.NAME = name;
         this.ID = id;
         this.points = 0;
+        this.active = true;
     }
 
     public String getNAME() {
@@ -43,13 +45,25 @@ public class Player implements Serializable {
         this.points += 1;
     }
     
+    public void newPoints(){
+        this.points=0;
+    }
+    
     public int getPoints() {
         return points;
     }
     
+    public void setStatus(boolean status){
+        this.active = status;
+    }
+    
+    public boolean getStatus(){
+        return this.active;
+    }
+    
     @Override
     public String toString() {
-        return "Player{" + "name=" + NAME + ", id=" + ID + ", points=" + points + '}';
+        return "Player{" + "\n\tname=" + NAME + "\n\tid=" + ID + "\n\tpoints=" + points +"\n\tStatus="+active+"\n\t}";
     }
     
     @Override
