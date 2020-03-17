@@ -36,7 +36,7 @@ public class Connection extends Thread {
     @Override
     public void run(){
         try {
-            String data = (String) in.readObject();
+            Object data = in.readObject();
             System.out.println("Message received from: " + clientSocket.getRemoteSocketAddress());
             
             if(data.equals("REGISTER")){
