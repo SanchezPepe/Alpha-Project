@@ -56,6 +56,16 @@ public class Board extends javax.swing.JFrame {
                 Player p = jugador;
                 p.setStatus(false);
                 p.newPoints();
+                System.out.println("disable 1");
+                disablePlayer();
+                try {
+                    tcpClient.enviaJugador(jugador);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("disable 2");
                 try {
                     tcpClient.enviaJugador(p);
                 } catch (InterruptedException ex) {
@@ -96,6 +106,9 @@ public class Board extends javax.swing.JFrame {
                 Player p = jugador;
                 p.setStatus(false);
                 p.newPoints();
+                System.out.println("disable 1");
+                disablePlayer();
+                System.out.println("disable 2");
                 try {
                     tcpClient.enviaJugador(p);
                 } catch (InterruptedException ex) {
@@ -110,6 +123,10 @@ public class Board extends javax.swing.JFrame {
     
     public void resetPoints(){
         this.jugador.newPoints();
+    }
+    
+    public void disablePlayer(){
+        this.jugador.setStatus(false);
     }
     
     public void blockButtons(){
@@ -494,26 +511,16 @@ public class Board extends javax.swing.JFrame {
     }//GEN-LAST:event_btn9MouseClicked
 
     private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
-        
-        addWindowListener(new WindowAdapter()
-        {
-            @Override
-            public void windowClosing(WindowEvent e)
-            {
-                System.out.println("Closed");
-                Player p = jugador;
-                p.setStatus(false);
-                p.newPoints();
-                try {
-                    tcpClient.enviaJugador(p);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                e.getWindow().dispose();
-            }
-        });
+        System.out.println("disable 1");
+        disablePlayer();
+        try {
+            tcpClient.enviaJugador(jugador);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("disable 2");
         System.exit(0);
     }//GEN-LAST:event_btnExitMouseClicked
 
