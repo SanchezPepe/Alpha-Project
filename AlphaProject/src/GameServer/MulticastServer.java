@@ -11,12 +11,14 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author LPENAF
  */
-public class MulticastServer {
+public class MulticastServer extends Thread{
     private final String IP = "228.5.6.7";
     private final int PORT = 6789;
     
@@ -52,7 +54,7 @@ public class MulticastServer {
         }
     }
     
-    public static void main(String[] args) throws InterruptedException, ClassNotFoundException {
+    public void run(){
         MulticastServer ms = new MulticastServer();
         WhacMole wm = new WhacMole();
         //String score = (new Date()).toString();
@@ -60,27 +62,33 @@ public class MulticastServer {
         TCPClient tcpClient = new TCPClient();
         SolicitudReinicio solicitudReinicio;
         while(true){
-            wm.changeBoard();
-            //aqui mandará los jugadores
-            //mr = new MulticastResponse(wm,(new Date()).toString(),"5");
-            mr = (MulticastResponse) tcpClient.solicitudMulticast();
-            //System.out.println("Multicast recivido desde el TCP -> "+mr.toString());
-            if(mr.juegoTerminado()){
-                //mr = tcpClient.solicitudReinicio();
-                //mr.setScore("El juego ha terminado");
-                ms.sendUDP(mr);
-                //Thread.sleep(5000);
-                System.out.println("Antes de los 7");
-                Thread.sleep(7000);
-                System.out.println("Despues de los 7");
-                solicitudReinicio = (SolicitudReinicio) tcpClient.solicitudReinicio();
-                ms.sendUDP(solicitudReinicio);
-                //mr = (MulticastResponse) tcpClient.solicitudReinicio();
-            }else{
-                ms.sendUDP(mr);
+            try {
+                wm.changeBoard();
+                //aqui mandará los jugadores
+                //mr = new MulticastResponse(wm,(new Date()).toString(),"5");
+                mr = (MulticastResponse) tcpClient.solicitudMulticast();
+                //System.out.println("Multicast recivido desde el TCP -> "+mr.toString());
+                if(mr.juegoTerminado()){
+                    //mr = tcpClient.solicitudReinicio();
+                    //mr.setScore("El juego ha terminado");
+                    ms.sendUDP(mr);
+                    //Thread.sleep(5000);
+                    System.out.println("Antes de los 7");
+                    Thread.sleep(7000);
+                    System.out.println("Despues de los 7");
+                    solicitudReinicio = (SolicitudReinicio) tcpClient.solicitudReinicio();
+                    ms.sendUDP(solicitudReinicio);
+                    //mr = (MulticastResponse) tcpClient.solicitudReinicio();
+                }else{
+                    ms.sendUDP(mr);
+                }
+                Thread.sleep(1000);
+                //score = (new Date()).toString();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(MulticastServer.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MulticastServer.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Thread.sleep(1000);
-            //score = (new Date()).toString();
         }
     }
 }
