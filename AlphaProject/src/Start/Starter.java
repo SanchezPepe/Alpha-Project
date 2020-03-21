@@ -1,7 +1,8 @@
+package Start;
 
-import Cliente.Cliente;
-import GameServer.MulticastServer;
-import TCP.TCPServer;
+import Client.Cliente;
+import Server.MulticastServer;
+import Server.TCPServer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,12 +15,7 @@ import TCP.TCPServer;
  * @author Jose Sanchez
  */
 public class Starter {
-    /**
-     * 
-    server
-            servidor multicast
-                    cliente
-         */
+    
     public static void main(String[] args){
         TCPServer server = new TCPServer();
         server.start();
@@ -27,7 +23,7 @@ public class Starter {
         MulticastServer ms = new MulticastServer();
         ms.start();
         
-        int numOfPlayers = 3;
+        int numOfPlayers = 4;
         for(int i = 0; i < numOfPlayers; i++){
             Cliente c = new Cliente();
             c.start();

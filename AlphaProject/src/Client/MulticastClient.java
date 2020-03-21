@@ -4,11 +4,10 @@
  * and open the template in the editor.
  */
 
-package GameClient;
+package Client;
 
 import GUI.Board;
-import GameServer.MulticastResponse;
-import GameServer.WhacMole;
+import Server.WhacMole;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -60,25 +59,17 @@ public class MulticastClient {
         MulticastClient mc = new MulticastClient();
         Board b = new Board();
         b.setVisible(true);
-        MulticastResponse mr;
         while(true){
             Object obj = mc.receiveUDP();
             System.out.println("Objeto recibido: "+obj.toString());
             if(obj instanceof WhacMole){
                 WhacMole wm = (WhacMole) obj;
-                //System.out.println(wm.toString());
                 b.updateBoard(wm.getBoard());
+                b.updateScore(wm.getStatus());
             }else{
                 if(obj instanceof String){
                     System.out.println("Recibiendo en el cliente");
                     b.updateScore((String) obj);
-                }else{
-                    if(obj instanceof MulticastResponse){
-                        //aqui se recibe el whacmole, el puntaje, y los puntos maximos para terminar el juego
-                        mr = (MulticastResponse)obj;
-                        b.updateBoard(mr.getBoard().getBoard());
-                        b.updateScore(mr.getScore());
-                    }
                 }
             }
         }

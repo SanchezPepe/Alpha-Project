@@ -5,8 +5,8 @@
  */
 package GUI;
 
-import GameClient.Player;
-import TCP.TCPClient;
+import Client.Player;
+import Client.TCPClient;
 import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

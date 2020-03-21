@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Cliente;
+package Client;
 
 import GUI.Board;
-import GameClient.MulticastClient;
-import GameClient.Player;
-import GameServer.ConnectionData;
-import GameServer.MulticastResponse;
-import GameServer.SolicitudReinicio;
-import GameServer.WhacMole;
-import TCP.TCPClient;
+import Server.ConnectionData;
+import Server.Solicitud;
+import Server.WhacMole;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +45,6 @@ public class Cliente extends Thread {
                 b.setVisible(true);
                 //se la pasa escuchando siempre al multicast
                 WhacMole wm;
-                MulticastResponse mr;
                 while (true) {
                     Object obj = mc.receiveUDP();
                     System.out.println("Objeto recibido: " + obj.toString());
@@ -62,16 +57,16 @@ public class Cliente extends Thread {
                             System.out.println("Recibiendo en el cliente");
                             b.updateScore((String) obj);
                         } else {
-                            if (obj instanceof MulticastResponse) {
+                            if (obj instanceof WhacMole) {
                                 //aqui se recibe el whacmole, el puntaje, y los puntos maximos para terminar el juego
-                                mr = (MulticastResponse) obj;
-                                b.updateBoard(mr.getBoard().getBoard());
-                                b.updateTerminado(mr.juegoTerminado());
-                                b.updateScore(mr.getScore());
+                                wm = (WhacMole) obj;
+                                b.updateBoard(wm.getBoard());
+                                b.updateTerminado(wm.juegoTerminado());
+                                b.updateScore(wm.getStatus());
 
                                 //Thread.sleep(3000);
                             } else {
-                                if (obj instanceof SolicitudReinicio) {
+                                if (obj instanceof Solicitud) {
                                     int[] board = {0, 0, 0, 0, 0, 0, 0, 0, 0};
                                     b.updateBoard(board);
                                     b.updateScore("¡Juego nuevo!");
