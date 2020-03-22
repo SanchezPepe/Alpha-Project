@@ -52,38 +52,33 @@ public class Cliente extends Thread {
                         wm = (WhacMole) obj;
                         //System.out.println(wm.toString());
                         b.updateBoard(wm.getBoard());
+                        b.updateTerminado(wm.juegoTerminado());
+                        b.updateScore(wm.getStatus());
                     } else {
                         if (obj instanceof String) {
                             System.out.println("Recibiendo en el cliente");
                             b.updateScore((String) obj);
-                        } else {
-                            if (obj instanceof WhacMole) {
-                                //aqui se recibe el whacmole, el puntaje, y los puntos maximos para terminar el juego
-                                wm = (WhacMole) obj;
-                                b.updateBoard(wm.getBoard());
-                                b.updateTerminado(wm.juegoTerminado());
-                                b.updateScore(wm.getStatus());
-
-                                //Thread.sleep(3000);
-                            } else {
-                                if (obj instanceof Solicitud) {
-                                    int[] board = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-                                    b.updateBoard(board);
-                                    b.updateScore("¡Juego nuevo!");
-                                    b.updateTerminado(false);
-                                    b.resetPoints();
-                                }
-                            }
+                        } else if (obj instanceof Solicitud) {
+                            int[] board = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+                            b.updateBoard(board);
+                            b.updateScore("¡Juego nuevo!");
+                            b.updateTerminado(false);
+                            b.resetPoints();
                         }
                     }
                 }
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Cliente.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (IOException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Cliente.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (InterruptedException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Cliente.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }

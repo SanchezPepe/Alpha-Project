@@ -19,6 +19,7 @@ public class Player implements Serializable {
     private final int ID;
     private int points;
     private boolean active;
+    
     public static final Comparator<Player> POINTS_COMPARATOR = new Comparator<Player>() {
         @Override
         public int compare(Player player1, Player player2) {

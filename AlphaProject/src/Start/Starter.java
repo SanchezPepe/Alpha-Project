@@ -23,7 +23,7 @@ public class Starter {
         MulticastServer ms = new MulticastServer();
         ms.start();
         
-        int numOfPlayers = 4;
+        int numOfPlayers = 2;
         for(int i = 0; i < numOfPlayers; i++){
             Cliente c = new Cliente();
             c.start();
