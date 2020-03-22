@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GameServer;
+package Server;
 
-import TCP.TCPClient;
+import Client.TCPClient;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
@@ -32,8 +32,6 @@ public class MulticastServer extends Thread{
             socket.joinGroup(group);
             //s.setTimeToLive(10);
             
-            //System.out.println("Messages' TTL (Time-To-Live): " + socket.getTimeToLive());
-            
             byte [] m = Utils.Serializing.serialize(obj);
             
             DatagramPacket messageOut = 
@@ -57,30 +55,23 @@ public class MulticastServer extends Thread{
     public void run(){
         MulticastServer ms = new MulticastServer();
         WhacMole wm = new WhacMole();
-        //String score = (new Date()).toString();
-        MulticastResponse mr;
         TCPClient tcpClient = new TCPClient();
-        SolicitudReinicio solicitudReinicio;
+        Solicitud sol;
         while(true){
             try {
                 wm.changeBoard();
                 //aqui mandará los jugadores
                 //mr = new MulticastResponse(wm,(new Date()).toString(),"5");
-                mr = (MulticastResponse) tcpClient.solicitudMulticast();
+                wm = (WhacMole) tcpClient.solicitudMulticast();
                 //System.out.println("Multicast recivido desde el TCP -> "+mr.toString());
-                if(mr.juegoTerminado()){
-                    //mr = tcpClient.solicitudReinicio();
-                    //mr.setScore("El juego ha terminado");
-                    ms.sendUDP(mr);
-                    //Thread.sleep(5000);
-                    System.out.println("Antes de los 7");
-                    Thread.sleep(7000);
-                    System.out.println("Despues de los 7");
-                    solicitudReinicio = (SolicitudReinicio) tcpClient.solicitudReinicio();
-                    ms.sendUDP(solicitudReinicio);
-                    //mr = (MulticastResponse) tcpClient.solicitudReinicio();
+                if(wm.juegoTerminado()){
+                    ms.sendUDP(wm);
+                    // Espera 5 segundos para reiniciar el juego
+                    Thread.sleep(5000);
+                    sol = (Solicitud) tcpClient.solicitudReinicio();
+                    ms.sendUDP(sol);
                 }else{
-                    ms.sendUDP(mr);
+                    ms.sendUDP(wm);
                 }
                 Thread.sleep(1000);
                 //score = (new Date()).toString();

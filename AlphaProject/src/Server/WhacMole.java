@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GameServer;
+package Server;
 
-import GameClient.Player;
+import Client.Player;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +23,8 @@ public class WhacMole implements Serializable{
     private int board[];
     private int monsterPosition;
     private ArrayList<Player> players;
+    private String status;
+    private int pointsToWin;
     
     public WhacMole(){
         this.board = new int[9];
@@ -32,16 +34,29 @@ public class WhacMole implements Serializable{
     
     public void changeBoard(){
         Random r = new Random();
-        
-        for (int i = 0; i < this.board.length; i++) {
-            this.board[i] = 0;
-        }
+        this.board = new int[]{ 0,0,0,0,0,0,0,0,0 }; 
         this.monsterPosition = r.nextInt(9);
         this.board[this.monsterPosition] = 1;
     }
 
     public int[] getBoard() {
         return board;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setPointsToWin(int pointsToWin) {
+        this.pointsToWin = pointsToWin;
+    }
+
+    public boolean juegoTerminado(){
+        return getGameMaxPoints() == this.pointsToWin;
     }
 
     public int getMonsterPosition() {
@@ -98,7 +113,7 @@ public class WhacMole implements Serializable{
         setLeaderboard();
         String res = "Puntos\tJugador\n";
         Player p;
-        System.out.println("Jugadores --> "+players.toString());
+        System.out.println("Jugadores --> "+ players.toString());
         for (int i = 0; i < players.size(); i++) {
             p = players.get(i);
             if(p.getStatus()){

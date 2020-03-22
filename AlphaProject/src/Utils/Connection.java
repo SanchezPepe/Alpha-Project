@@ -5,7 +5,7 @@
  */
 package Utils;
 
-import GameServer.ConnectionData;
+import Server.ConnectionData;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;

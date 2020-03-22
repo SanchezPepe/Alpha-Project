@@ -5,8 +5,8 @@
  */
 package GUI;
 
-import GameClient.Player;
-import TCP.TCPClient;
+import Client.Player;
+import Client.TCPClient;
 import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -52,6 +52,7 @@ public class Board extends javax.swing.JFrame {
             @Override
             public void windowClosing(WindowEvent e)
             {
+                
                 System.out.println("Closed");
                 Player p = jugador;
                 p.setStatus(false);

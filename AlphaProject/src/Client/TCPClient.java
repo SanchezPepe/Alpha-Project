@@ -1,4 +1,4 @@
-package TCP;
+package Client;
 
 
 /*
@@ -6,13 +6,9 @@ package TCP;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import GameClient.Player;
-import GameServer.ConnectionData;
-import GameServer.MulticastResponse;
-import GameServer.SolicitudJugador;
-import GameServer.SolicitudMulticast;
-import GameServer.SolicitudRegistro;
-import GameServer.SolicitudReinicio;
+import Server.ConnectionData;
+import Server.Solicitud;
+import Server.WhacMole;
 import java.net.*;
 import java.io.*;
 
@@ -67,7 +63,7 @@ public class TCPClient {
             s = new Socket("localhost", serverPort);
             ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(s.getInputStream());   
-            out.writeObject(new SolicitudRegistro(nombre));
+            out.writeObject(new Solicitud(2, nombre));
             //p = (Player) 
             //System.out.println("En espera de la respuesta");
             Object obj = in.readObject();
@@ -102,7 +98,7 @@ public class TCPClient {
             s = new Socket("localhost", serverPort);
             ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(s.getInputStream());   
-            out.writeObject(new SolicitudJugador(nombre));
+            out.writeObject(new Solicitud(1, nombre));
             //p = (Player) 
             //System.out.println("En espera de la respuesta");
             Object obj = in.readObject();
@@ -129,20 +125,20 @@ public class TCPClient {
         return p;
     }
     
-    public MulticastResponse solicitudMulticast() throws ClassNotFoundException{
-        MulticastResponse resp = null;
+    public WhacMole solicitudMulticast() throws ClassNotFoundException{
+        WhacMole resp = null;
         Socket s = null;
         try {
             int serverPort = 1025;
             s = new Socket("localhost", serverPort);
             ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(s.getInputStream());   
-            out.writeObject(new SolicitudMulticast());
+            out.writeObject(new Solicitud(4, null));
             //p = (Player) 
             //System.out.println("En espera de la respuesta");
             Object obj = in.readObject();
-            if(obj instanceof MulticastResponse){
-                resp = (MulticastResponse) obj;
+            if(obj instanceof WhacMole){
+                resp = (WhacMole) obj;
             }
             //System.out.println("Despues de la respuesta");
             //System.out.println("Received: " + obj.toString());
@@ -164,20 +160,21 @@ public class TCPClient {
         return resp;
     }
     
-    public SolicitudReinicio solicitudReinicio()throws ClassNotFoundException{
-        SolicitudReinicio resp = null;
+    public Solicitud solicitudReinicio()throws ClassNotFoundException{
+        Solicitud resp = null;
         Socket s = null;
         try {
             int serverPort = 1025;
             s = new Socket("localhost", serverPort);
             ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(s.getInputStream());   
-            out.writeObject(new SolicitudReinicio());
+            out.writeObject(new Solicitud(3, null));
             //p = (Player) 
             //System.out.println("En espera de la respuesta");
             Object obj = in.readObject();
-            if(obj instanceof SolicitudReinicio){
-                resp = (SolicitudReinicio) obj;
+            Solicitud sol = (Solicitud) obj;
+            if(sol.getTipo() == 3){
+                resp = sol;
             }
             //System.out.println("Despues de la respuesta");
             //System.out.println("Received: " + obj.toString());
@@ -198,11 +195,4 @@ public class TCPClient {
         }
         return resp;
     }
-    
-//    public static void main(String[] args) throws InterruptedException, ClassNotFoundException {
-//        Player jugadorEnvio = new Player("Fabian",1000);
-//        TCPClient tcpC = new TCPClient();
-//        Player p2 = tcpC.enviaJugador(jugadorEnvio);
-//        System.out.println(p2.toString());
-//    }
 }
