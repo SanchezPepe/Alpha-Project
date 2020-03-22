@@ -52,6 +52,7 @@ public class Board extends javax.swing.JFrame {
             @Override
             public void windowClosing(WindowEvent e)
             {
+                
                 System.out.println("Closed");
                 Player p = jugador;
                 p.setStatus(false);

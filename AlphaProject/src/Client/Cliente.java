@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class Cliente extends Thread {
 
-    public void run() {
+    public static void main(String[] args) {
         try {
             //este se debe cambiar por un servicio tcp
             //GameManager gm = new GameManager();

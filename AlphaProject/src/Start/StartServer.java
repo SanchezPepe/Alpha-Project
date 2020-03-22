@@ -1,6 +1,5 @@
 package Start;
 
-import Client.Cliente;
 import Server.MulticastServer;
 import Server.TCPServer;
 
@@ -14,7 +13,7 @@ import Server.TCPServer;
  *
  * @author Jose Sanchez
  */
-public class Starter {
+public class StartServer {
     
     public static void main(String[] args){
         TCPServer server = new TCPServer();
@@ -22,13 +21,6 @@ public class Starter {
         
         MulticastServer ms = new MulticastServer();
         ms.start();
-        
-        int numOfPlayers = 2;
-        for(int i = 0; i < numOfPlayers; i++){
-            Cliente c = new Cliente();
-            c.start();
-        }
-        
     }
     
 }
