@@ -24,7 +24,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() throws IOException {
         initComponents();
-        File f = new File("assets\\fantasma.png");
+        File f = new File("assets/fantasma.png");
         Image fantasmaImage = ImageIO.read(f);
         Image fantasmaRezied = fantasmaImage.getScaledInstance(jLabelFantasma.getWidth(), jLabelFantasma.getHeight(),Image.SCALE_SMOOTH);
         ImageIcon icon = new ImageIcon(fantasmaRezied);

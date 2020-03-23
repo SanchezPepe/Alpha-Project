@@ -48,35 +48,26 @@ public class Cliente extends Thread {
                 while (true) {
                     Object obj = mc.receiveUDP();
                     System.out.println("Objeto recibido: " + obj.toString());
+                    //System.out.println(obj instanceof Solicitud);
                     if (obj instanceof WhacMole) {
                         wm = (WhacMole) obj;
                         //System.out.println(wm.toString());
                         b.updateBoard(wm.getBoard());
                         b.updateTerminado(wm.juegoTerminado());
                         b.updateScore(wm.getStatus());
-                    } else {
-                        if (obj instanceof String) {
-                            System.out.println("Recibiendo en el cliente");
-                            b.updateScore((String) obj);
-                        } else if (obj instanceof Solicitud) {
-                            int[] board = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-                            b.updateBoard(board);
-                            b.updateScore("¡Juego nuevo!");
-                            b.updateTerminado(false);
-                            b.resetPoints();
-                        }
+                    } else if (obj instanceof String) {
+                        System.out.println("Recibiendo en el cliente");
+                        b.updateScore((String) obj);
+                    } else if (obj instanceof Solicitud) {
+                        int[] board = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+                        b.updateBoard(board);
+                        b.updateScore("¡Juego nuevo!");
+                        b.resetPoints();
+                        b.updateTerminado(false);
                     }
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Cliente.class
-                    .getName()).log(Level.SEVERE, null, ex);
-
-        } catch (IOException ex) {
-            Logger.getLogger(Cliente.class
-                    .getName()).log(Level.SEVERE, null, ex);
-
-        } catch (InterruptedException ex) {
+        } catch (ClassNotFoundException | IOException | InterruptedException ex) {
             Logger.getLogger(Cliente.class
                     .getName()).log(Level.SEVERE, null, ex);
         }

@@ -149,7 +149,7 @@ public class Board extends javax.swing.JFrame {
             JButton button = this.botones.get(i);
             
             if(board[i] == 1){
-                File f = new File("assets\\fantasma.png");
+                File f = new File("assets/fantasma.png");
                 Image image = ImageIO.read(f);
                 Image resized = image.getScaledInstance(button.getWidth(), button.getHeight(),Image.SCALE_SMOOTH);
                 ImageIcon icon = new ImageIcon(resized);
