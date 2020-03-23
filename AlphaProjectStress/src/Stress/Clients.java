@@ -65,10 +65,10 @@ public class Clients {
     
     public static void main(String[] args) {
         int requests = 1;
-        int numOfPlayers = 150;
+        int numOfPlayers = 150; //1-2-3-4-5-6-7-8-9-10
         
-        String ruta = "ruta.txt";
-        Clients.concatInFile(ruta, "Para "+numOfPlayers+" jugadores\n");
+        String ruta = "C:\\Users\\fabia\\Desktop\\SD\\proyecto-22032020\\Alpha-Project\\AlphaProjectStress\\src\\Stress\\resultados_registro2.txt";
+        //Clients.concatInFile(ruta, "Para "+numOfPlayers+" jugadores\n");
         for (int i = 0; i < numOfPlayers; i++) {
             Cliente c = new Cliente("Client " + (i + 1), requests, (i+1));
             c.start();

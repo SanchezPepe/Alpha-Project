@@ -37,9 +37,9 @@ public class Cliente extends Thread {
             tf = System.currentTimeMillis();
             tot = tf-ti;
             //System.out.println();
-            String ruta = "ruta.txt";
+            String ruta = "C:\\Users\\fabia\\Desktop\\SD\\proyecto-22032020\\Alpha-Project\\AlphaProjectStress\\src\\Stress\\resultados_registro2.txt";
             Clients.concatInFile(ruta, "J"+this.id+":"+tot+"\n");
-            
+            /*
             MulticastClient mc = new MulticastClient();
             Player p = new Player(name, id);
             p.setMessage("");
@@ -47,13 +47,12 @@ public class Cliente extends Thread {
                 Object obj = mc.receiveUDP();
                 p.setMessage("Request no: " + i + " from: " + p.getNAME());
                 tcpClient.enviaJugador(p, i + 1);
-            }
+            }*/
             
-        } catch (ClassNotFoundException ex) {
+        }catch (ClassNotFoundException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
+        // TODO Auto-generated catch block
+        
     }
 }
