@@ -39,17 +39,41 @@ public class Cliente extends Thread {
             //System.out.println();
             String ruta = "C:\\Users\\fabia\\Desktop\\SD\\proyecto-22032020\\Alpha-Project\\AlphaProjectStress\\src\\Stress\\resultados_registro2.txt";
             Clients.concatInFile(ruta, "J"+this.id+":"+tot+"\n");
+<<<<<<< HEAD
             /*
+=======
+            
+            
+>>>>>>> b615a37261e610cf2fc785b5b7751600cabf83f0
             MulticastClient mc = new MulticastClient();
             Player p = new Player(name, id);
             p.setMessage("");
+            
+            // Estresamiento con requests
+            long sum = 0;
+            long sum2 = 0;
+            long t1, t2;
             for (int i = 0; i < this.requests; i++) {
                 Object obj = mc.receiveUDP();
                 p.setMessage("Request no: " + i + " from: " + p.getNAME());
+                t1 = System.currentTimeMillis();
                 tcpClient.enviaJugador(p, i + 1);
+<<<<<<< HEAD
             }*/
             
         }catch (ClassNotFoundException ex) {
+=======
+                t2 = System.currentTimeMillis();
+                sum += t2;
+                sum2 += t2 * t2;
+            }
+            
+            double avg = ((double) sum) / requests;
+            double std = Math.sqrt(((double) sum2)/ (requests - avg * avg));
+            System.out.println(Integer.toString(requests) + '\t' + Double.toString(avg) + '\t' + Double.toString(std));
+            
+        } catch (ClassNotFoundException ex) {
+>>>>>>> b615a37261e610cf2fc785b5b7751600cabf83f0
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         // TODO Auto-generated catch block
