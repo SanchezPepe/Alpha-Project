@@ -54,24 +54,21 @@ public class Cliente extends Thread {
                 p.setMessage("Request no: " + i + " from: " + p.getNAME());
                 t1 = System.currentTimeMillis();
                 tcpClient.enviaJugador(p, i + 1);
-
-            }
-            
-        }catch (ClassNotFoundException ex) {
-
                 t2 = System.currentTimeMillis();
                 sum += t2;
                 sum2 += t2 * t2;
             }
-            
+
             double avg = ((double) sum) / requests;
-            double std = Math.sqrt(((double) sum2)/ (requests - avg * avg));
+            double std = Math.sqrt(((double) sum2) / (requests - avg * avg));
             System.out.println(Integer.toString(requests) + '\t' + Double.toString(avg) + '\t' + Double.toString(std));
-            
+
         } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         // TODO Auto-generated catch block
-        
+
     }
 }
