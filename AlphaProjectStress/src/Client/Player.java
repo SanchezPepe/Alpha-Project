@@ -57,7 +57,7 @@ public class Player implements Serializable {
     }
 
     public void newPoints() {
-        //this.points = 0;
+        this.points = 0;
     }
 
     public int getPoints() {
