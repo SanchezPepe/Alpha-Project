@@ -6,6 +6,7 @@
 package Client;
 
 import Server.ConnectionData;
+import Stress.Clients;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,8 +29,17 @@ public class Cliente extends Thread {
     public void run() {
         try {
             TCPClient tcpClient = new TCPClient();
+            
+            long tot = 0;
+            long tf = 0;
+            long ti = System.currentTimeMillis();
             ConnectionData cd = tcpClient.enviaRegistro(name);
-
+            tf = System.currentTimeMillis();
+            tot = tf-ti;
+            //System.out.println();
+            String ruta = "ruta.txt";
+            Clients.concatInFile(ruta, "J"+this.id+":"+tot+"\n");
+            
             MulticastClient mc = new MulticastClient();
             Player p = new Player(name, id);
             p.setMessage("");

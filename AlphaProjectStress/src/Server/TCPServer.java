@@ -81,8 +81,8 @@ class Connection extends Thread {
                         // Solicitud Registro
                         case 2:
                             ConnectionData con = gm.registerPlayer(s.getNombre());
-                            System.out.println("Soliciud de registro que regresa --> " + con.toString());
-                            System.out.println("Los jugadores registrados son: " + gm.getGame().getPlayers().toString());
+                            //System.out.println("Soliciud de registro que regresa --> " + con.toString());
+                            //System.out.println("Los jugadores registrados son: " + gm.getGame().getPlayers().toString());
                             out.writeObject(con);
                             break;
                         // Solicitud Reinicio
