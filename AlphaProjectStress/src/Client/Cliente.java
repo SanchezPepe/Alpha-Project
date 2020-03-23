@@ -6,9 +6,6 @@
 package Client;
 
 import Server.ConnectionData;
-import Server.Solicitud;
-import Server.WhacMole;
-import Client.TCPClient;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,10 +17,12 @@ public class Cliente extends Thread {
 
     String name;
     int requests;
+    int id;
 
-    public Cliente(String n, int requests){
+    public Cliente(String n, int requests, int id) {
         this.name = n;
         this.requests = requests;
+        this.id = id;
     }
 
     public void run() {
@@ -31,35 +30,15 @@ public class Cliente extends Thread {
             TCPClient tcpClient = new TCPClient();
             ConnectionData cd = tcpClient.enviaRegistro(name);
 
-            System.out.println(cd.toString());
-
-            if (cd != null) { 
-                Player yo = tcpClient.solicitaRegistroJugador(name);
-                System.out.println(yo.toString());
-
-                MulticastClient mc = new MulticastClient();
-                tcpClient.enviaJugador(yo);
-                
-                System.out.println(this.name + " sends " + requests);
-                for(int i = 0; i < this.requests; i++){
-
-                }
-
-                while (true) {
-                    Object obj = mc.receiveUDP();
-                    System.out.println("Objeto recibido: " + obj.toString());
-                    if (obj instanceof WhacMole) {
-                        WhacMole wm = (WhacMole) obj;
-                        System.out.println("Recibí tablero del server: " + wm.getBoard());
-                    } else {
-                        if (obj instanceof String) {
-                            System.out.println("Recibiendo en el cliente");
-                        } else if (obj instanceof Solicitud) {
-                            int[] board = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-                        }
-                    }
-                }
+            MulticastClient mc = new MulticastClient();
+            Player p = new Player(name, id);
+            p.setMessage("");
+            for (int i = 0; i < this.requests; i++) {
+                Object obj = mc.receiveUDP();
+                p.setMessage("Request no: " + i + " from: " + p.getNAME());
+                tcpClient.enviaJugador(p, i + 1);
             }
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException e) {

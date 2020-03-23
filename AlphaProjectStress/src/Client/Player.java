@@ -19,6 +19,7 @@ public class Player implements Serializable {
     private final int ID;
     private int points;
     private boolean active;
+    private String message;
     
     public static final Comparator<Player> POINTS_COMPARATOR = new Comparator<Player>() {
         @Override
@@ -33,6 +34,14 @@ public class Player implements Serializable {
         this.ID = id;
         this.points = 0;
         this.active = true;
+    }
+    
+    public void setMessage(String msg){
+        this.message = msg;
+    }
+    
+    public String getMessage(){
+        return this.message;
     }
 
     public String getNAME() {

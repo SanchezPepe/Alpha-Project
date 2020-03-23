@@ -64,7 +64,7 @@ public class MulticastServer extends Thread{
                 //mr = new MulticastResponse(wm,(new Date()).toString(),"5");
                 wm = (WhacMole) tcpClient.solicitudMulticast();
                 //System.out.println("Multicast recivido desde el TCP -> "+mr.toString());
-                if(wm.juegoTerminado()){
+                if(wm != null && wm.juegoTerminado()){
                     ms.sendUDP(wm);
                     // Espera 5 segundos para reiniciar el juego
                     Thread.sleep(5000);
