@@ -60,21 +60,14 @@ class Connection extends Thread {
             Object obj = in.readObject();
             if (obj instanceof Player) {
                 Player p = (Player) obj;
-                System.out.println("Se recibió respuesta: " + p.getNAME());
+                System.out.println(p.getMessage());
                 this.gm.updatePlayer(p);
-                //System.out.println("Escribiendo respuesta desde el server");
                 out.writeObject(obj);
                 //System.out.println("Fin de respuesta");
             } else {
                 if (obj instanceof String) {
                     System.out.println("Se recibió un string");
-                    //aqui se asume que se registran
-                    //se tiene que regresar la conexion
-                    //out.writeObject(obj);
-                    //se tiene que regresar el identificador
                     out.writeObject(obj);
-                    //System.out.println(((String) obj).toString());
-
                 } else {
                     // El objeto es una solicitud
                     Solicitud s = (Solicitud) obj;

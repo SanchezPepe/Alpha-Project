@@ -113,7 +113,7 @@ public class WhacMole implements Serializable{
         setLeaderboard();
         String res = "Puntos\tJugador\n";
         Player p;
-        System.out.println("Jugadores --> "+ players.toString());
+        System.out.println("Jugadores -> "+ players.size());
         for (int i = 0; i < players.size(); i++) {
             p = players.get(i);
             if(p.getStatus()){
