@@ -26,8 +26,8 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         File f = new File("assets\\fantasma.png");
         Image fantasmaImage = ImageIO.read(f);
-        Image resizedPikachuImage = fantasmaImage.getScaledInstance(jLabelFantasma.getWidth(), jLabelFantasma.getHeight(),Image.SCALE_SMOOTH);
-        ImageIcon icon = new ImageIcon(resizedPikachuImage);
+        Image fantasmaRezied = fantasmaImage.getScaledInstance(jLabelFantasma.getWidth(), jLabelFantasma.getHeight(),Image.SCALE_SMOOTH);
+        ImageIcon icon = new ImageIcon(fantasmaRezied);
         jLabelFantasma.setIcon(icon);
     }
 

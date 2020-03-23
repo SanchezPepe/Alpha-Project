@@ -150,9 +150,9 @@ public class Board extends javax.swing.JFrame {
             
             if(board[i] == 1){
                 File f = new File("assets\\fantasma.png");
-                Image pikachuImage = ImageIO.read(f);
-                Image resizedPikachuImage = pikachuImage.getScaledInstance(button.getWidth(), button.getHeight(),Image.SCALE_SMOOTH);
-                ImageIcon icon = new ImageIcon(resizedPikachuImage);
+                Image image = ImageIO.read(f);
+                Image resized = image.getScaledInstance(button.getWidth(), button.getHeight(),Image.SCALE_SMOOTH);
+                ImageIcon icon = new ImageIcon(resized);
                 button.setIcon(icon);
             } else {
                 button.setIcon(null);
